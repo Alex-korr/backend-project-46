@@ -1,5 +1,4 @@
-# .github/workflows/build.yml
-name: Build and SonarQube Analysis
+name: Build and SonarQube Analysis (macOS)
 on:
   push:
     branches: [ main ]
@@ -8,16 +7,18 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest  # Changed to macOS
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
+        with:
+          node-version: 18  # Explicit version for consistency
       - run: npm install
-      - run: npm test -- --coverage  # Generate coverage for SonarQube
+      - run: npm test -- --coverage
 
   sonarqube:
-    needs: test  # Waits for tests to finish
-    runs-on: ubuntu-latest
+    needs: test
+    runs-on: macos-latest  # Changed to macOS
     steps:
       - uses: actions/checkout@v4
       - uses: SonarSource/sonarqube-scan-action@v5
