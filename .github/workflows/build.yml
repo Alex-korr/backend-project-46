@@ -17,15 +17,14 @@ jobs:
       - run: npm install
       - run: npm test -- --coverage
 
-
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-    args: >
-      -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-      -Dsonar.language=js
-      -Dsonar.coverage.exclusions=**/test/**,**/mocks/**
-      -Dsonar.sources=src
-      -Dsonar.tests=__tests__
+          args: >
+           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+           -Dsonar.language=js
+           -Dsonar.coverage.exclusions=**/test/**,**/mocks/**
+           -Dsonar.sources=src
+           -Dsonar.tests=__tests__
