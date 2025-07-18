@@ -10,7 +10,8 @@ export default [
     languageOptions: {
       globals: {
         ...globals.node,  // Подключаем Node.js глобальные переменные
-        ...globals.es2021 // Добавляем ES2021 глобалы
+        ...globals.es2021, // Добавляем ES2021 глобалы
+        ...globals.jest,  // Добавляем Jest глобалы
       },
       parserOptions: {
         ecmaVersion: "latest",
@@ -22,6 +23,16 @@ export default [
       "indent": ["error", 2],
       "quotes": ["error", "double"],
       "semi": ["error", "never"]
+    }
+  },
+  
+  // Отдельная конфигурация для тестовых файлов
+  {
+    files: ["**/*.test.{js,mjs,cjs}"],
+    languageOptions: {
+      globals: {
+        ...globals.jest // Явно добавляем Jest-глобалы для тестов
+      }
     }
   }
 ]

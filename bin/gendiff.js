@@ -7,6 +7,26 @@ import genDiff from "../src/diff.js"
 
 const program = new Command()
 
+// Helper function to find files in common locations
+const resolveFile = (filename) => {
+  const pathsToTry = [
+    filename,
+    path.join("__fixtures__", filename),
+    path.join(process.cwd(), filename),
+    path.join(process.cwd(), "__fixtures__", filename)
+  ]
+
+  for (const filepath of pathsToTry) {
+    try {
+      fs.accessSync(filepath, fs.constants.R_OK)
+      return path.resolve(filepath)
+    } catch (err) {
+      continue
+    }
+  }
+  throw new Error(`File not found: ${filename}`)
+}
+
 program
   .name("gendiff")
   .description("Compares two configuration files and shows a difference.")
@@ -14,19 +34,22 @@ program
   .arguments("<filepath1> <filepath2>")
   .option("-f, --format <type>", "output format", "stylish")
   .action((filepath1, filepath2) => {
-  
-    const data1 = fs.readFileSync(path.resolve(filepath1), "utf8")
-    const data2 = fs.readFileSync(path.resolve(filepath2), "utf8")
+    try {
+      const resolvedPath1 = resolveFile(filepath1)
+      const resolvedPath2 = resolveFile(filepath2)
 
-    const getFormat = (filepath) => path.extname(filepath).slice(1)
-    const format1 = getFormat(filepath1)
-    const format2 = getFormat(filepath2)
+      const data1 = fs.readFileSync(resolvedPath1, "utf8").trim()
+      const data2 = fs.readFileSync(resolvedPath2, "utf8").trim()
 
-  
-    const obj1 = parse(data1, format1)
-    const obj2 = parse(data2, format2)
+      const getFormat = (filepath) => path.extname(filepath).slice(1)
+      const obj1 = parse(data1, getFormat(resolvedPath1))
+      const obj2 = parse(data2, getFormat(resolvedPath2))
 
-    const diff = genDiff(obj1, obj2)
-    console.log(`{\n${diff}\n}`)
+      const diff = genDiff(obj1, obj2)
+      console.log(`{\n${diff}\n}`)
+    } catch (error) {
+      console.error(`Error: ${error.message}`)
+      process.exit(1)
+    }
   })
   .parse(process.argv)

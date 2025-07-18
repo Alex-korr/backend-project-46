@@ -1,12 +1,15 @@
-const parse = (data, format) => {
-  if (format === "json") {
+import { load } from "js-yaml"
+
+export const parse = (data) => {
+  // Try YAML first (handles JSON too)
+  try {
+    return load(data)
+  } catch {
+    // Fallback to JSON
     try {
       return JSON.parse(data)
-    } catch (e) {
-      throw new Error(`Invalid JSON: ${e.message}`)
+    } catch {
+      throw new Error("Invalid YAML or JSON")
     }
   }
-  throw new Error(`Unsupported format: ${format}`)
 }
-
-export { parse }
