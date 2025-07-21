@@ -26,23 +26,23 @@
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21"
   },
- "devDependencies": {
-  "@eslint/js": "^8.6.0",
-  "@jest/globals": "^30.0.4",
-  "eslint": "^8.56.0",
-  "eslint-config-airbnb-base": "^15.0.0",
-  "eslint-plugin-import": "^2.28.1",
-  "globals": "^16.3.0",
-  "jest": "^30.0.4",
-  "jest-environment-node": "^30.0.4"
-},
-  "jest": {
-    "transform": {},
-    "testEnvironment": "node",
-    "moduleNameMapper": {
-      "^(\\.{1,2}/.*)\\.js$": "$1"
-    }
+  "devDependencies": {
+    "@eslint/js": "^8.6.0",
+    "@jest/globals": "^30.0.4",
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.28.1",
+    "globals": "^16.3.0",
+    "jest": "^30.0.4",
+    "jest-environment-node": "^30.0.4",
+    "test-exclude": "^7.0.1"
   },
+  "jest": {
+  "collectCoverage": true,
+  "coverageProvider": "v8",
+  "transform": {},
+  "testEnvironment": "node"
+},
   "engines": {
     "node": ">=18.0.0"
   }
