@@ -4,7 +4,7 @@ import fs from "fs"
 import path from "path"
 import { parse } from "../src/parser.js"
 import genDiff from "../src/diff.js"
-import format from "../src/formatters/stylish.js"
+import format from "../src/formatters/index.js"
 
 const program = new Command()
 
@@ -53,7 +53,7 @@ program
       const diff = genDiff(obj1, obj2)
 
       // 5. Output the result
-      console.log(format(diff))
+      console.log(format(diff, program.opts().format))
     } catch (error) {
       console.error(`Error: ${error.message}`)
       process.exit(1)
