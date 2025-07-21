@@ -12,10 +12,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0
 
-      - run: npm install
-      - run: npm test -- --coverage
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # Match your local Node version
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci --prefer-offline
+          npm list js-yaml  # Verify installation
+          ls -la node_modules/js-yaml  # Confirm files exist
+
+      - name: Run tests with coverage
+        run: |
+          NODE_OPTIONS=--experimental-vm-modules npm test -- --coverage --runInBand
+          cat coverage/lcov.info  # Verify coverage file exists
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
@@ -23,8 +37,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-           -Dsonar.language=js
-           -Dsonar.coverage.exclusions=**/test/**,**/mocks/**
-           -Dsonar.sources=src
-           -Dsonar.tests=__tests__
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.language=js
+            -Dsonar.coverage.exclusions=**/test/**,**/mocks/**
+            -Dsonar.sources=src
+            -Dsonar.tests=__tests__

@@ -15,7 +15,7 @@
   "type": "module",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
-    "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
+  "test:ci": "NODE_OPTIONS=--experimental-vm-modules jest --coverage --runInBand",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
     "lint": "eslint . --ext .js",
     "lint:fix": "eslint . --ext .js --fix",
@@ -45,5 +45,8 @@
 },
   "engines": {
     "node": ">=18.0.0"
-  }
+  },
+"resolutions": {
+  "js-yaml": "4.1.0"
+}
 }
