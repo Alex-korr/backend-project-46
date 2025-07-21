@@ -1,31 +1,42 @@
 import _ from "lodash"
 
-const formatValue = (value) => {
-  if (_.isPlainObject(value)) return "[complex value]"  // Handle nested objects
-  if (Array.isArray(value)) return value.join(",")     // Handle arrays
-  return value
-}
-
 const genDiff = (obj1, obj2) => {
   const allKeys = _.union(Object.keys(obj1), Object.keys(obj2))
   const sortedKeys = _.sortBy(allKeys)
 
   return sortedKeys.flatMap((key) => {
+    // Рекурсия для вложенных объектов
+    if (_.isPlainObject(obj1[key]) && _.isPlainObject(obj2[key])) {
+      return {
+        key,
+        type: "nested",
+        children: genDiff(obj1[key], obj2[key]) // 🔁
+      }
+    }
+
+    // Удалённые ключи
     if (!_.has(obj2, key)) {
-      return `  - ${key}: ${formatValue(obj1[key])}`
+      return { key, type: "deleted", value: obj1[key] }
     }
+
+    // Добавленные ключи
     if (!_.has(obj1, key)) {
-      return `  + ${key}: ${formatValue(obj2[key])}`
+      return { key, type: "added", value: obj2[key] }
     }
-    // FIXED: Type-insensitive comparison
-    if (String(obj1[key]) === String(obj2[key])) {
-      return `    ${key}: ${formatValue(obj1[key])}`
+
+    // Изменённые ключи
+    if (!_.isEqual(obj1[key], obj2[key])) {
+      return {
+        key,
+        type: "changed",
+        oldValue: obj1[key],
+        newValue: obj2[key]
+      }
     }
-    return [
-      `  - ${key}: ${formatValue(obj1[key])}`,
-      `  + ${key}: ${formatValue(obj2[key])}`
-    ]
-  }).join("\n")
+
+    // Неизменённые ключи
+    return { key, type: "unchanged", value: obj1[key] }
+  })
 }
 
 export default genDiff
