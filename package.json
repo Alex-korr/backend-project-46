@@ -12,6 +12,9 @@
     "gendiff": "./bin/gendiff.js"
   },
   "type": "module",
+  "exports": {
+    ".": "./index.js"
+  },
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "test:ci": "NODE_OPTIONS=--experimental-vm-modules jest --coverage --runInBand",
@@ -47,5 +50,8 @@
   },
 "resolutions": {
   "js-yaml": "4.1.0"
+},
+"imports": {
+  "js-yaml": "js-yaml/index.js"
 }
 }
