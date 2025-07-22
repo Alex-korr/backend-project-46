@@ -16,7 +16,7 @@
     ".": "./index.js"
   },
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.cjs",
     "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
     "lint": "eslint . --ext .js",
@@ -39,15 +39,7 @@
     "jest-environment-node": "^30.0.4",
     "test-exclude": "^7.0.1"
   },
-  "jest": {
-    "collectCoverage": true,
-    "coverageProvider": "v8",
-    "transform": {},
-    "testEnvironment": "node",
-    "moduleNameMapper": {
-      "^(\\.{1,2}/.*)\\.js$": "$1"
-    }
-  },
+  
   "engines": {
     "node": ">=20.0.0"
   },
