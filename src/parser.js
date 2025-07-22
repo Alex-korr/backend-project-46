@@ -1,5 +1,7 @@
 
-import jsYaml from "js-yaml"
+import { createRequire } from "module"
+const require = createRequire(import.meta.url)
+const jsYaml = require("js-yaml")
 
 export const parse = (content, format) => {
   try {
