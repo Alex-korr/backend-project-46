@@ -46,7 +46,7 @@
   "testEnvironment": "node"
 },
   "engines": {
-    "node": ">=24.0.0"
+    "node": ">=20.0.0"
   },
 "resolutions": {
   "js-yaml": "4.1.0"
