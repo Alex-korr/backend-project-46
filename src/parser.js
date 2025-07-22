@@ -1,5 +1,5 @@
 
-import * as jsYaml from "js-yaml"
+import { load } from "js-yaml"
 
 export const parse = (content, format) => {
   try {
@@ -8,7 +8,7 @@ export const parse = (content, format) => {
       return JSON.parse(content)
     }
     if (format === "yaml" || format === "yml") {
-      return jsYaml.load(content)
+      return load(content)
     }
     throw new Error(`Unsupported format: ${format}`)
   } catch (e) {

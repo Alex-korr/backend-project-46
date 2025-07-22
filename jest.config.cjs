@@ -1,10 +1,9 @@
 module.exports = {
   testEnvironment: "node",
   transform: {},
-  moduleNameMapper: {
-    "^(\\.{1,2}/.*)\\.js$": "$1"
-  },
+  moduleDirectories: ["node_modules"],
   transformIgnorePatterns: [
     "node_modules/(?!(js-yaml)/)"
-  ]
+  ],
+  moduleFileExtensions: ["js", "json", "node"]
 }
