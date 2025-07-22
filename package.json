@@ -16,8 +16,8 @@
     ".": "./index.js"
   },
   "scripts": {
-    "test": "jest",
-    "test:ci": "jest --coverage --runInBand",
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
     "lint": "eslint . --ext .js",
     "lint:fix": "eslint . --ext .js --fix",
