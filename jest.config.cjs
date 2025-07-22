@@ -5,5 +5,5 @@ module.exports = {
   transformIgnorePatterns: [
     "node_modules/(?!(js-yaml)/)"
   ],
-  moduleFileExtensions: ["js", "json", "node"]
+  moduleFileExtensions: ["js", "json", "node", "mjs"]
 }
