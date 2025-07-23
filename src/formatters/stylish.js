@@ -1,4 +1,4 @@
-const INDENT_SIZE = 2
+const INDENT_SIZE = 4
 const INDENT_TYPE = " "
 const MARKERS = {
   added: "+ ",
