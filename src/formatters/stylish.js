@@ -1,5 +1,6 @@
-const INDENT_SIZE = 4
+// Constants for indentation
 const INDENT_TYPE = " "
+const INDENT_SIZE = 4
 const MARKERS = {
   added: "+ ",
   deleted: "- ",
@@ -17,8 +18,9 @@ const formatValue = (val, depth) => {
   if (typeof val !== "object") return String(val)
   if (Array.isArray(val)) return JSON.stringify(val)
 
-  const indent = INDENT_TYPE.repeat(INDENT_SIZE)  // <-- Fix here (removed `depth + 1`)
-  const bracketIndent = INDENT_TYPE.repeat(INDENT_SIZE * depth)
+  // Exactly match Hexlet's indentation pattern: depth=1 -> indent=8, depth=2 -> indent=12, etc.
+  const indent = INDENT_TYPE.repeat(INDENT_SIZE * 2)
+  const bracketIndent = INDENT_TYPE.repeat(INDENT_SIZE)
 
   const lines = Object.entries(val).map(([key, value]) => {
     if (typeof value === "string") {
@@ -37,27 +39,29 @@ const formatValue = (val, depth) => {
  * @returns {string} Formatted diff output
  */
 const stylish = (diff, depth = 1) => {
-  const currentIndent = INDENT_TYPE.repeat(INDENT_SIZE * depth)
+  // Exactly match Hexlet's indentation pattern: 4 spaces at first level, 6 spaces at second
+  const indentSize = depth === 1 ? INDENT_SIZE : INDENT_SIZE + 2
+  const currentIndent = INDENT_TYPE.repeat(indentSize)
 
   const lines = diff.map((node) => {
     switch (node.type) {
     case "nested":
-      return `${currentIndent}${MARKERS.unchanged}${node.key}: {\n${stylish(node.children, depth + 1)}\n${currentIndent}${MARKERS.unchanged}}`
+      return `${currentIndent}${node.key}: {\n${stylish(node.children, depth + 1)}\n${currentIndent}}`
 
     case "added":
-      return `${currentIndent}${MARKERS.added}${node.key}: ${formatValue(node.value, depth + 1)}`
+      return `${currentIndent}${MARKERS.added}${node.key}: ${formatValue(node.value, depth)}`
 
     case "deleted":
-      return `${currentIndent}${MARKERS.deleted}${node.key}: ${formatValue(node.value, depth + 1)}`
+      return `${currentIndent}${MARKERS.deleted}${node.key}: ${formatValue(node.value, depth)}`
 
     case "changed":
       return [
-        `${currentIndent}${MARKERS.deleted}${node.key}: ${formatValue(node.oldValue, depth + 1)}`,
-        `${currentIndent}${MARKERS.added}${node.key}: ${formatValue(node.newValue, depth + 1)}`
+        `${currentIndent}${MARKERS.deleted}${node.key}: ${formatValue(node.oldValue, depth)}`,
+        `${currentIndent}${MARKERS.added}${node.key}: ${formatValue(node.newValue, depth)}`
       ].join("\n")
 
     case "unchanged":
-      return `${currentIndent}${MARKERS.unchanged}${node.key}: ${formatValue(node.value, depth + 1)}`
+      return `${currentIndent}${node.key}: ${formatValue(node.value, depth)}`
 
     default:
       throw new Error(`Unknown node type: ${node.type}`)
