@@ -1,76 +1,59 @@
-// Constants for indentation
-const INDENT_TYPE = " "
-const INDENT_SIZE = 4
-const MARKERS = {
-  added: "+ ",
-  deleted: "- ",
-  unchanged: "  ",
+// This is a completely rewritten version to exactly match Hexlet's output format
+const makeIndent = (depth) => "    ".repeat(depth)
+const makeOffset = (depth) => "    ".repeat(depth - 1)
+
+const stringify = (value, depth) => {
+  if (value === null) return "null"
+  if (typeof value !== "object" || Array.isArray(value)) return String(value)
+
+  // Match the exact indentation in the expected output
+  const indent = makeIndent(depth)
+  const lines = Object.entries(value).map(([key, val]) => 
+    `${indent}${key}: ${stringify(val, depth + 1)}`
+  )
+
+  return [
+    "{",
+    ...lines,
+    `${makeOffset(depth)}}`
+  ].join("\n")
 }
 
-/**
- * Formats a value for display, handling nested objects and special values
- * @param {any} val - The value to format
- * @param {number} depth - Current nesting depth
- * @returns {string} Formatted string representation of the value
- */
-const formatValue = (val, depth) => {
-  if (val === null) return "null"
-  if (typeof val !== "object") return String(val)
-  if (Array.isArray(val)) return JSON.stringify(val)
-
-  // Exactly match Hexlet's indentation pattern: depth=1 -> indent=8, depth=2 -> indent=12, etc.
-  const indent = INDENT_TYPE.repeat(INDENT_SIZE * 2)
-  const bracketIndent = INDENT_TYPE.repeat(INDENT_SIZE)
-
-  const lines = Object.entries(val).map(([key, value]) => {
-    if (typeof value === "string") {
-      return `${indent}${key}: ${value}`
-    }
-    return `${indent}${key}: ${formatValue(value, depth + 1)}`
-  })
-
-  return ["{", ...lines, `${bracketIndent}}`].join("\n")
-}
-
-/**
- * Creates a stylish diff output format
- * @param {Array} diff - Array of diff objects
- * @param {number} depth - Current nesting depth
- * @returns {string} Formatted diff output
- */
-const stylish = (diff, depth = 1) => {
-  // Exactly match Hexlet's indentation pattern: 4 spaces at first level, 6 spaces at second
-  const indentSize = depth === 1 ? INDENT_SIZE : INDENT_SIZE + 2
-  const currentIndent = INDENT_TYPE.repeat(indentSize)
-
-  const lines = diff.map((node) => {
-    switch (node.type) {
-    case "nested":
-      return `${currentIndent}${node.key}: {\n${stylish(node.children, depth + 1)}\n${currentIndent}}`
-
-    case "added":
-      return `${currentIndent}${MARKERS.added}${node.key}: ${formatValue(node.value, depth)}`
-
-    case "deleted":
-      return `${currentIndent}${MARKERS.deleted}${node.key}: ${formatValue(node.value, depth)}`
-
-    case "changed":
-      return [
-        `${currentIndent}${MARKERS.deleted}${node.key}: ${formatValue(node.oldValue, depth)}`,
-        `${currentIndent}${MARKERS.added}${node.key}: ${formatValue(node.newValue, depth)}`
-      ].join("\n")
-
-    case "unchanged":
-      return `${currentIndent}${node.key}: ${formatValue(node.value, depth)}`
-
-    default:
-      throw new Error(`Unknown node type: ${node.type}`)
-    }
-  })
-
-  return depth === 1
-    ? `{\n${lines.join("\n")}\n}`
-    : lines.join("\n")
+const stylish = (diff) => {
+  const iter = (nodes, depth) => {
+    const indent = makeOffset(depth)
+    
+    const lines = nodes.map((node) => {
+      const makeString = (value, sign) => `${indent}  ${sign} ${node.key}: ${stringify(value, depth + 1)}`
+      
+      switch (node.type) {
+      case "nested":
+        return `${indent}    ${node.key}: {\n${iter(node.children, depth + 1)}\n${indent}    }`
+      
+      case "added":
+        return makeString(node.value, "+")
+      
+      case "deleted":
+        return makeString(node.value, "-")
+      
+      case "changed":
+        return [
+          makeString(node.oldValue, "-"),
+          makeString(node.newValue, "+")
+        ].join("\n")
+      
+      case "unchanged":
+        return makeString(node.value, " ")
+      
+      default:
+        throw new Error(`Unknown node type: ${node.type}`)
+      }
+    })
+    
+    return lines.join("\n")
+  }
+  
+  return `{\n${iter(diff, 1)}\n}`
 }
 
 export default stylish
