@@ -1,4 +1,4 @@
-const formatValue = (value) => {
+const formatValue = value => {
   if (value === null) return 'null'
   if (typeof value === 'object' && value !== null) return '[complex value]'
   if (typeof value === 'string') return `'${value}'`
@@ -6,7 +6,7 @@ const formatValue = (value) => {
 }
 
 const plain = (diff, parentPath = '') => {
-  const lines = diff.map((node) => {
+  const lines = diff.map(node => {
     const currentPath = parentPath ? `${parentPath}.${node.key}` : node.key
 
     switch (node.type) {

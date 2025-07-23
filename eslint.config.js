@@ -27,7 +27,7 @@ export default [
       '@stylistic/linebreak-style': ['error', 'unix'],
       '@stylistic/no-trailing-spaces': 'error',
       '@stylistic/comma-dangle': ['error', 'always-multiline'],
-      '@stylistic/arrow-parens': ['error', 'always'],
+      '@stylistic/arrow-parens': ['error', 'as-needed'],
       '@stylistic/eol-last': ['error', 'always'],
       '@stylistic/quote-props': ['error', 'as-needed'],
       '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: true }],
