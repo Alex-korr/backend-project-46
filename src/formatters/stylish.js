@@ -17,8 +17,8 @@ const formatValue = (val, depth) => {
   if (typeof val !== "object") return String(val)
   if (Array.isArray(val)) return JSON.stringify(val)
 
-  const indent = INDENT_TYPE.repeat(INDENT_SIZE * depth)
-  const bracketIndent = INDENT_TYPE.repeat(INDENT_SIZE * (depth - 1))
+  const indent = INDENT_TYPE.repeat(INDENT_SIZE * (depth + 1))
+  const bracketIndent = INDENT_TYPE.repeat(INDENT_SIZE * depth)
   
   // If it's an object (including parsed YAML), format it properly
   const lines = Object.entries(val).map(([key, value]) => {
@@ -42,27 +42,27 @@ const formatValue = (val, depth) => {
  * @returns {string} Formatted diff output
  */
 const stylish = (diff, depth = 1) => {
-  const currentIndent = INDENT_TYPE.repeat(INDENT_SIZE * depth - INDENT_SIZE)
+  const currentIndent = INDENT_TYPE.repeat(INDENT_SIZE * depth)
 
   const lines = diff.map((node) => {
     switch (node.type) {
     case "nested":
-      return `${currentIndent}  ${node.key}: {\n${stylish(node.children, depth + 1)}\n${currentIndent}  }`
+      return `${currentIndent}${MARKERS.unchanged}${node.key}: {\n${stylish(node.children, depth + 1)}\n${currentIndent}${MARKERS.unchanged}}`
 
     case "added":
-      return `${currentIndent}${MARKERS.added}${node.key}: ${formatValue(node.value, depth)}`
+      return `${currentIndent}${MARKERS.added}${node.key}: ${formatValue(node.value, depth + 1)}`
 
     case "deleted":
-      return `${currentIndent}${MARKERS.deleted}${node.key}: ${formatValue(node.value, depth)}`
+      return `${currentIndent}${MARKERS.deleted}${node.key}: ${formatValue(node.value, depth + 1)}`
 
     case "changed":
       return [
-        `${currentIndent}${MARKERS.deleted}${node.key}: ${formatValue(node.oldValue, depth)}`,
-        `${currentIndent}${MARKERS.added}${node.key}: ${formatValue(node.newValue, depth)}`
+        `${currentIndent}${MARKERS.deleted}${node.key}: ${formatValue(node.oldValue, depth + 1)}`,
+        `${currentIndent}${MARKERS.added}${node.key}: ${formatValue(node.newValue, depth + 1)}`
       ].join("\n")
 
     case "unchanged":
-      return `${currentIndent}${MARKERS.unchanged}${node.key}: ${formatValue(node.value, depth)}`
+      return `${currentIndent}${MARKERS.unchanged}${node.key}: ${formatValue(node.value, depth + 1)}`
 
     default:
       throw new Error(`Unknown node type: ${node.type}`)
