@@ -1,6 +1,6 @@
 // This is a completely rewritten version to exactly match Hexlet's output format
-const makeIndent = depth => '    '.repeat(depth)
-const makeOffset = depth => '    '.repeat(depth - 1)
+const makeIndent = (depth) => '    '.repeat(depth)
+const makeOffset = (depth) => '    '.repeat(depth - 1)
 
 const stringify = (value, depth) => {
   if (value === null) return 'null'
@@ -19,11 +19,11 @@ const stringify = (value, depth) => {
   ].join('\n')
 }
 
-const stylish = diff => {
+const stylish = (diff) => {
   const iter = (nodes, depth) => {
     const indent = makeOffset(depth)
 
-    const lines = nodes.map(node => {
+    const lines = nodes.map((node) => {
       const makeString = (value, sign) =>
         `${indent}  ${sign} ${node.key}: ${stringify(value, depth + 1)}`
 
