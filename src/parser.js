@@ -10,7 +10,8 @@ export const parse = (content, format) => {
       return yaml.load(content)
     }
     throw new Error(`Unsupported format: ${format}`)
-  } catch (e) {
+  }
+  catch (e) {
     throw new Error(`Parsing error: ${e.message}`)
   }
 }

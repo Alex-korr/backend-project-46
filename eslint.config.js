@@ -30,7 +30,7 @@ export default [
       '@stylistic/arrow-parens': ['error', 'as-needed', { requireForBlockBody: true }],
       '@stylistic/eol-last': ['error', 'always'],
       '@stylistic/quote-props': ['error', 'as-needed'],
-      '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: true }],
+      '@stylistic/brace-style': ['error', 'stroustrup', { allowSingleLine: false }],
       '@stylistic/no-multi-spaces': 'error',
       '@stylistic/no-multiple-empty-lines': ['error', { max: 1, maxBOF: 0 }],
       'max-len': ['error', { code: 100 }],

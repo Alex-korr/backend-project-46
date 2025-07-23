@@ -17,7 +17,8 @@ const resolvePath = (filepath) => {
     const fixturesPath = path.resolve(process.cwd(), '__fixtures__', filepath)
     if (fs.existsSync(fixturesPath)) {
       absolutePath = fixturesPath
-    } else {
+    }
+    else {
       throw new Error(`File not found: ${filepath}`)
     }
   }
@@ -54,7 +55,8 @@ program
 
       // 5. Output the result
       console.log(format(diff, program.opts().format))
-    } catch (error) {
+    }
+    catch (error) {
       console.error(`Error: ${error.message}`)
       process.exit(1)
     }
