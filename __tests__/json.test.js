@@ -18,10 +18,10 @@ describe("gendiff json format", () => {
     const obj1 = parse(file1, "json")
     const obj2 = parse(file2, "json")
     const diff = genDiff(obj1, obj2)
-    
+
     // Проверяем, что результат - валидный JSON
     expect(() => JSON.parse(format(diff, "json"))).not.toThrow()
-    
+
     // Проверяем структуру
     const result = JSON.parse(format(diff, "json"))
     expect(result).toEqual(diff)

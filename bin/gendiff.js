@@ -11,7 +11,7 @@ const program = new Command()
 const resolvePath = (filepath) => {
   // 1. Try to find the file relative to current directory
   let absolutePath = path.resolve(process.cwd(), filepath)
-  
+
   // 2. If not found, try to find in __fixtures__ directory
   if (!fs.existsSync(absolutePath)) {
     const fixturesPath = path.resolve(process.cwd(), "__fixtures__", filepath)
@@ -21,7 +21,7 @@ const resolvePath = (filepath) => {
       throw new Error(`File not found: ${filepath}`)
     }
   }
-  
+
   return absolutePath
 }
 

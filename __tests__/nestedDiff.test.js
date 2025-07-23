@@ -30,13 +30,13 @@ describe("Nested structures diff", () => {
     test("detects nested structure changes", () => {
       const commonNode = result.find(node => node.key === "common")
       expect(commonNode.type).toBe("nested")
-      
+
       const setting6Node = commonNode.children.find(node => node.key === "setting6")
       expect(setting6Node.type).toBe("nested")
-      
+
       const dogeNode = setting6Node.children.find(node => node.key === "doge")
       expect(dogeNode.type).toBe("nested")
-      
+
       const wowNode = dogeNode.children.find(node => node.key === "wow")
       expect(wowNode).toEqual({
         key: "wow",

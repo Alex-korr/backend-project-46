@@ -16,14 +16,14 @@ test("compare flat JSONs", () => {
   const file2 = getFixturePath("file2.json")
   const data1 = readFileSync(file1, "utf-8")
   const data2 = readFileSync(file2, "utf-8")
-  
+
   const obj1 = parse(data1, "json")
   const obj2 = parse(data2, "json")
-  
+
   const diff = genDiff(obj1, obj2)
 
   const formattedDiff = format(diff, "stylish")
-  
+
   // Проверяем наличие всех необходимых изменений в выводе
   expect(formattedDiff).toContain("host: hexlet.io")
   expect(formattedDiff).toContain("- timeout: 50")
