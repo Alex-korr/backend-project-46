@@ -5,7 +5,7 @@ const genDiff = (obj1, obj2) => {
   const sortedKeys = _.sortBy(allKeys)
 
   return sortedKeys.flatMap(key => {
-    // Рекурсия для вложенных объектов
+    // Recursion for nested objects
     if (_.isPlainObject(obj1[key]) && _.isPlainObject(obj2[key])) {
       return {
         key,
@@ -14,17 +14,17 @@ const genDiff = (obj1, obj2) => {
       }
     }
 
-    // Удалённые ключи
+    // Deleted keys
     if (!_.has(obj2, key)) {
       return { key, type: 'deleted', value: obj1[key] }
     }
 
-    // Добавленные ключи
+    // Added keys
     if (!_.has(obj1, key)) {
       return { key, type: 'added', value: obj2[key] }
     }
 
-    // Изменённые ключи
+    // Changed keys
     if (!_.isEqual(obj1[key], obj2[key])) {
       return {
         key,

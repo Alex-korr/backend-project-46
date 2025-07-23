@@ -2,7 +2,8 @@
 
 [![Actions Status](https://github.com/Alex-korr/backend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Alex-korr/backend-project-46/actions)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Alex-korr_backend-project-46&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Alex-korr_backend-project-46)
-
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Alex-korr_backend-project-46&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Alex-korr_backend-project-46)
+[![Build](https://github.com/Alex-korr/backend-project-46/actions/workflows/build.yml/badge.svg)](https://github.com/Alex-korr/backend-project-46/actions/workflows/build.yml)
 ## Description
 
 A command-line tool that shows the difference between two configuration files. Supports JSON and YAML formats.
@@ -58,7 +59,6 @@ gendiff --format json file1.json file2.json
 
 ## Demo
 
-[![asciicast](your-asciinema-url-here)](your-asciinema-url-here)
 
 https://asciinema.org/a/2GxaUWhcNL1A3GTQ6U4YIjyrs
 
@@ -67,5 +67,8 @@ https://asciinema.org/a/X6PTYszKR0mGv48o4TGwqDBt2
 https://asciinema.org/a/lCHD2ZnFyw7CvodeKgR6hkovg
 
 https://asciinema.org/a/X4zQ34JPZftelBHGhAC3pbtkB
+
+
+
 
 

@@ -9,12 +9,12 @@ const __dirname = path.dirname(__filename)
 
 const getFixturePath = filename => path.join(__dirname, '..', '__fixtures__', filename)
 test('parse YAML files', () => {
-  // Проверка правильности парсинга YAML
+  // Verifying correct YAML parsing
   const file1 = getFixturePath('file1.yaml')
   const data1 = readFileSync(file1, 'utf-8')
   const obj1 = parse(data1, 'yaml')
 
-  // Проверяем что YAML парсится в правильный объект
+  // Checking that YAML is parsed into the correct object
   expect(obj1).toHaveProperty('host', 'hexlet.io')
   expect(obj1).toHaveProperty('timeout', 50)
   expect(obj1).toHaveProperty('proxy', '123.234.53.22')

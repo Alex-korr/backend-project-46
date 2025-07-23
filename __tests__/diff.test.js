@@ -24,7 +24,6 @@ test('compare flat JSONs', () => {
 
   const formattedDiff = format(diff, 'stylish')
 
-  // Проверяем наличие всех необходимых изменений в выводе
   expect(formattedDiff).toContain('host: hexlet.io')
   expect(formattedDiff).toContain('- timeout: 50')
   expect(formattedDiff).toContain('+ timeout: 20')
