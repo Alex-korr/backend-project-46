@@ -8,7 +8,7 @@ import format from '../src/formatters/index.js'
 
 const program = new Command()
 
-const resolvePath = filepath => {
+const resolvePath = (filepath) => {
   // 1. Try to find the file relative to current directory
   let absolutePath = path.resolve(process.cwd(), filepath)
 
@@ -42,7 +42,7 @@ program
       const content2 = fs.readFileSync(absolutePath2, 'utf-8')
 
       // 3. Determine format (json/yml/yaml)
-      const getFormat = filepath => {
+      const getFormat = (filepath) => {
         const ext = path.extname(filepath).slice(1)
         return ext === 'yml' ? 'yaml' : ext
       }
@@ -58,6 +58,7 @@ program
       console.error(`Error: ${error.message}`)
       process.exit(1)
     }
-  })
+  },
+  )
 
 program.parse(process.argv)

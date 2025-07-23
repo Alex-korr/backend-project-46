@@ -4,7 +4,7 @@ const genDiff = (obj1, obj2) => {
   const allKeys = _.union(Object.keys(obj1), Object.keys(obj2))
   const sortedKeys = _.sortBy(allKeys)
 
-  return sortedKeys.flatMap(key => {
+  return sortedKeys.flatMap((key) => {
     // Рекурсия для вложенных объектов
     if (_.isPlainObject(obj1[key]) && _.isPlainObject(obj2[key])) {
       return {
