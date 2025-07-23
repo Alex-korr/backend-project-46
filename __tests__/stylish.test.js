@@ -1,17 +1,17 @@
-import { fileURLToPath } from "url"
-import path, { dirname } from "path"
-import fs from "fs"
-import genDiff from "../src/diff.js"
-import { parse } from "../src/parser.js"
-import format from "../src/formatters/index.js"
+import { fileURLToPath } from 'url'
+import path, { dirname } from 'path'
+import fs from 'fs'
+import genDiff from '../src/diff.js'
+import { parse } from '../src/parser.js'
+import format from '../src/formatters/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-const getFixturePath = (filename) => path.join(__dirname, "..", "__fixtures__", filename)
-const readFile = (filename) => fs.readFileSync(getFixturePath(filename), "utf-8")
+const getFixturePath = filename => path.join(__dirname, '..', '__fixtures__', filename)
+const readFile = filename => fs.readFileSync(getFixturePath(filename), 'utf-8')
 
-describe("gendiff stylish format", () => {
+describe('gendiff stylish format', () => {
   // This is the exact output that our formatter produces, matching Hexlet's expected format
   const expectedStylish = `{
     common: {
@@ -58,21 +58,21 @@ describe("gendiff stylish format", () => {
     }
 }`
 
-  test("compares nested JSON files (stylish format)", () => {
-    const file1 = readFile("nested1.json")
-    const file2 = readFile("nested2.json")
-    const obj1 = parse(file1, "json")
-    const obj2 = parse(file2, "json")
+  test('compares nested JSON files (stylish format)', () => {
+    const file1 = readFile('nested1.json')
+    const file2 = readFile('nested2.json')
+    const obj1 = parse(file1, 'json')
+    const obj2 = parse(file2, 'json')
     const diff = genDiff(obj1, obj2)
-    expect(format(diff, "stylish")).toEqual(expectedStylish)
+    expect(format(diff, 'stylish')).toEqual(expectedStylish)
   })
 
-  test("compares nested YAML files (stylish format)", () => {
-    const file1 = readFile("nested1.yaml")
-    const file2 = readFile("nested2.yaml")
-    const obj1 = parse(file1, "yaml")
-    const obj2 = parse(file2, "yaml")
+  test('compares nested YAML files (stylish format)', () => {
+    const file1 = readFile('nested1.yaml')
+    const file2 = readFile('nested2.yaml')
+    const obj1 = parse(file1, 'yaml')
+    const obj2 = parse(file2, 'yaml')
     const diff = genDiff(obj1, obj2)
-    expect(format(diff, "stylish")).toEqual(expectedStylish)
+    expect(format(diff, 'stylish')).toEqual(expectedStylish)
   })
 })

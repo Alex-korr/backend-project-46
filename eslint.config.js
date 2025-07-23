@@ -1,44 +1,52 @@
-import js from "@eslint/js"
-import globals from "globals"
+import js from '@eslint/js'
+import globals from 'globals'
+import stylistic from '@stylistic/eslint-plugin'
 
 export default [
-  // Базовые рекомендуемые правила ESLint
+  // Base recommended ESLint rules
   js.configs.recommended,
+  stylistic.configs.recommended,
 
   {
-    files: ["**/*.{js,mjs,cjs}"],
+    files: ['**/*.{js,mjs,cjs}'],
     languageOptions: {
       globals: {
-        ...globals.node,  // Подключаем Node.js глобальные переменные
-        ...globals.es2021, // Добавляем ES2021 глобалы
-        ...globals.jest,  // Добавляем Jest глобалы
+        ...globals.node,
+        ...globals.es2021,
+        ...globals.jest,
       },
       parserOptions: {
-        ecmaVersion: "latest",
-        sourceType: "module"
-      }
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
     },
     rules: {
-      // Updated rules to match Hexlet's checking system
-      "indent": ["error", 2, { "SwitchCase": 1 }],
-      "quotes": ["error", "double"],
-      "semi": ["error", "never"],
-      "linebreak-style": ["error", "unix"],
-      "no-trailing-spaces": "error",
-      "max-len": ["error", { "code": 100 }],
-      "no-console": "off",
-      "import/extensions": "off",
-      "no-underscore-dangle": "off"
-    }
+      indent: ['error', 2, { SwitchCase: 1 }],
+      '@stylistic/quotes': ['error', 'single'],
+      '@stylistic/semi': ['error', 'never'],
+      '@stylistic/linebreak-style': ['error', 'unix'],
+      '@stylistic/no-trailing-spaces': 'error',
+      '@stylistic/comma-dangle': ['error', 'always-multiline'],
+      '@stylistic/arrow-parens': ['error', 'as-needed'],
+      '@stylistic/eol-last': ['error', 'always'],
+      '@stylistic/quote-props': ['error', 'as-needed'],
+      '@stylistic/brace-style': ['error', '1tbs'],
+      '@stylistic/no-multi-spaces': 'error',
+      '@stylistic/no-multiple-empty-lines': ['error', { max: 1, maxBOF: 0 }],
+      'max-len': ['error', { code: 100 }],
+      'no-console': 'off',
+      'import/extensions': 'off',
+      'no-underscore-dangle': 'off',
+    },
   },
 
-  // Отдельная конфигурация для тестовых файлов
+  // Separate configuration for test files
   {
-    files: ["**/*.test.{js,mjs,cjs}"],
+    files: ['**/*.test.{js,mjs,cjs}'],
     languageOptions: {
       globals: {
-        ...globals.jest // Явно добавляем Jest-глобалы для тестов
-      }
-    }
-  }
+        ...globals.jest,
+      },
+    },
+  },
 ]

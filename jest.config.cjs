@@ -1,6 +1,6 @@
 module.exports = {
-  testEnvironment: "node",
+  testEnvironment: 'node',
   transform: {},
-  moduleDirectories: ["node_modules"],
-  moduleFileExtensions: ["js", "json", "node", "mjs"]
+  moduleDirectories: ['node_modules'],
+  moduleFileExtensions: ['js', 'json', 'node', 'mjs'],
 }
