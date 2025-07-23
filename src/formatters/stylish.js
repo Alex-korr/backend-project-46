@@ -17,10 +17,9 @@ const formatValue = (val, depth) => {
   if (typeof val !== "object") return String(val)
   if (Array.isArray(val)) return JSON.stringify(val)
 
-  const indent = INDENT_TYPE.repeat(INDENT_SIZE * (depth + 1))
+  const indent = INDENT_TYPE.repeat(INDENT_SIZE)  // <-- Fix here (removed `depth + 1`)
   const bracketIndent = INDENT_TYPE.repeat(INDENT_SIZE * depth)
-  
-  // If it's an object (including parsed YAML), format it properly
+
   const lines = Object.entries(val).map(([key, value]) => {
     if (typeof value === "string") {
       return `${indent}${key}: ${value}`
@@ -28,11 +27,7 @@ const formatValue = (val, depth) => {
     return `${indent}${key}: ${formatValue(value, depth + 1)}`
   })
 
-  return [
-    "{",
-    ...lines,
-    `${bracketIndent}}`
-  ].join("\n")
+  return ["{", ...lines, `${bracketIndent}}`].join("\n")
 }
 
 /**
