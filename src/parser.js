@@ -1,5 +1,5 @@
 
-import { yaml } from "./yaml-helper.js"
+import yaml from "js-yaml"
 
 export const parse = (content, format) => {
   try {

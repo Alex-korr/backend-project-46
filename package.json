@@ -12,6 +12,7 @@
     "gendiff": "./bin/gendiff.js"
   },
   "type": "module",
+  "main": "index.js",
   "exports": {
     ".": "./index.js"
   },
@@ -43,8 +44,5 @@
   "engines": {
     "node": ">=20.0.0"
   },
-"resolutions": {
-  "js-yaml": "4.1.0"
-},
 "imports": {}
 }
