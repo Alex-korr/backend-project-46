@@ -40,7 +40,7 @@ coverage/
 # ========================
 # Package Manager Files
 # ========================
-package-lock.json
+# package-lock.json (needed for CI/CD)
 yarn.lock
 pnpm-lock.yaml
 shrinkwrap.json
