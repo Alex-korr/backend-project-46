@@ -2,9 +2,7 @@
 import { Command } from 'commander'
 import fs from 'fs'
 import path from 'path'
-import { parse } from '../src/parser.js'
-import genDiff from '../src/diff.js'
-import format from '../src/formatters/index.js'
+import { compareFiles } from '../src/diff.js'
 
 const program = new Command()
 
@@ -38,23 +36,11 @@ program
       const absolutePath1 = resolvePath(filepath1)
       const absolutePath2 = resolvePath(filepath2)
 
-      // 2. Read files
-      const content1 = fs.readFileSync(absolutePath1, 'utf-8')
-      const content2 = fs.readFileSync(absolutePath2, 'utf-8')
+      // 2. Use the compareFiles function to handle everything else
+      const result = compareFiles(absolutePath1, absolutePath2, program.opts().format)
 
-      // 3. Determine format (json/yml/yaml)
-      const getFormat = (filepath) => {
-        const ext = path.extname(filepath).slice(1)
-        return ext === 'yml' ? 'yaml' : ext
-      }
-
-      // 4. Parse and compare
-      const obj1 = parse(content1, getFormat(absolutePath1))
-      const obj2 = parse(content2, getFormat(absolutePath2))
-      const diff = genDiff(obj1, obj2)
-
-      // 5. Output the result
-      console.log(format(diff, program.opts().format))
+      // 3. Output the result
+      console.log(result)
     }
     catch (error) {
       console.error(`Error: ${error.message}`)

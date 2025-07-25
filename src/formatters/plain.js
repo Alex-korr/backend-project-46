@@ -6,26 +6,27 @@ const formatValue = (value) => {
 }
 
 const plain = (diff, parentPath = '') => {
+  const nodeTypeHandlers = {
+    nested: (node, currentPath) => plain(node.children, currentPath),
+    added: (node, currentPath) => `Property '${currentPath}' was added with value: ${formatValue(node.value)}`,
+    deleted: (node, currentPath) => `Property '${currentPath}' was removed`,
+    changed: (node, currentPath) => {
+      const oldVal = formatValue(node.oldValue)
+      const newVal = formatValue(node.newValue)
+      return `Property '${currentPath}' was updated. From ${oldVal} to ${newVal}`
+    },
+    unchanged: () => null,
+  }
+
   const lines = diff.map((node) => {
     const currentPath = parentPath ? `${parentPath}.${node.key}` : node.key
+    const handler = nodeTypeHandlers[node.type]
 
-    switch (node.type) {
-      case 'nested':
-        return plain(node.children, currentPath)
-      case 'added':
-        return `Property '${currentPath}' was added with value: ${formatValue(node.value)}`
-      case 'deleted':
-        return `Property '${currentPath}' was removed`
-      case 'changed': {
-        const oldVal = formatValue(node.oldValue)
-        const newVal = formatValue(node.newValue)
-        return `Property '${currentPath}' was updated. From ${oldVal} to ${newVal}`
-      }
-      case 'unchanged':
-        return null
-      default:
-        throw new Error(`Unknown node type: ${node.type}`)
+    if (!handler) {
+      throw new Error(`Unknown node type: ${node.type}`)
     }
+
+    return handler(node, currentPath)
   })
 
   return lines.filter(Boolean).join('\n')

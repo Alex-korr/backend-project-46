@@ -1,13 +1,12 @@
-// This is a completely rewritten version to exactly match Hexlet's output format
-const makeIndent = depth => '    '.repeat(depth)
-const makeOffset = depth => '    '.repeat(depth - 1)
+// Combined function that handles both indent and offset
+const makeSpaces = (depth, isOffset = false) => '    '.repeat(isOffset ? depth - 1 : depth)
 
 const stringify = (value, depth) => {
   if (value === null) return 'null'
   if (typeof value !== 'object' || Array.isArray(value)) return String(value)
 
   // Match the exact indentation in the expected output
-  const indent = makeIndent(depth)
+  const indent = makeSpaces(depth) // Using makeSpaces instead of makeIndent
   const lines = Object.entries(value).map(([key, val]) =>
     `${indent}${key}: ${stringify(val, depth + 1)}`,
   )
@@ -15,40 +14,35 @@ const stringify = (value, depth) => {
   return [
     '{',
     ...lines,
-    `${makeOffset(depth)}}`,
+    `${makeSpaces(depth, true)}}`, // Using makeSpaces with isOffset=true
   ].join('\n')
 }
 
 const stylish = (diff) => {
   const iter = (nodes, depth) => {
-    const indent = makeOffset(depth)
+    const indent = makeSpaces(depth, true) // Using makeSpaces with isOffset=true
 
     const lines = nodes.map((node) => {
       const makeString = (value, sign) =>
         `${indent}  ${sign} ${node.key}: ${stringify(value, depth + 1)}`
 
-      switch (node.type) {
-        case 'nested':
-          return `${indent}    ${node.key}: {\n${iter(node.children, depth + 1)}\n${indent}    }`
-
-        case 'added':
-          return makeString(node.value, '+')
-
-        case 'deleted':
-          return makeString(node.value, '-')
-
-        case 'changed':
-          return [
-            makeString(node.oldValue, '-'),
-            makeString(node.newValue, '+'),
-          ].join('\n')
-
-        case 'unchanged':
-          return makeString(node.value, ' ')
-
-        default:
-          throw new Error(`Unknown node type: ${node.type}`)
+      const nodeTypeHandlers = {
+        nested: () => `${indent}    ${node.key}: {\n${iter(node.children, depth + 1)}\n${indent}    }`,
+        added: () => makeString(node.value, '+'),
+        deleted: () => makeString(node.value, '-'),
+        changed: () => [
+          makeString(node.oldValue, '-'),
+          makeString(node.newValue, '+'),
+        ].join('\n'),
+        unchanged: () => makeString(node.value, ' '),
       }
+
+      const handler = nodeTypeHandlers[node.type]
+      if (!handler) {
+        throw new Error(`Unknown node type: ${node.type}`)
+      }
+
+      return handler()
     })
 
     return lines.join('\n')

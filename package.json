@@ -17,11 +17,11 @@
     ".": "./index.js"
   },
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.cjs",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.js",
     "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
-    "lint": "eslint . --ext .js",
-    "lint:fix": "eslint . --ext .js --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "prepublishOnly": "npm run lint && npm test"
   },
   "dependencies": {
