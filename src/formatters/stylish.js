@@ -1,4 +1,4 @@
-// Combined function that handles both indent and offset
+// Combined function that handles both indent and offset functions
 const makeSpaces = (depth, isOffset = false) => '    '.repeat(isOffset ? depth - 1 : depth)
 
 const stringify = (value, depth) => {
@@ -20,7 +20,7 @@ const stringify = (value, depth) => {
 
 const stylish = (diff) => {
   const iter = (nodes, depth) => {
-    const indent = makeSpaces(depth, true) // Using makeSpaces with isOffset=true
+    const indent = makeSpaces(depth, true) // Using makeSpaces with isOffset=true again
 
     const lines = nodes.map((node) => {
       const makeString = (value, sign) =>
